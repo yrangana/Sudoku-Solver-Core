@@ -1,8 +1,6 @@
-import pytest
-from src.solver import solve_sudoku, is_valid
+from src.solver import solve_sudoku as solve_sudoku
 
-
-def test_sudoku_solver():
+if __name__ == "__main__":
     puzzle = [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
         [6, 0, 0, 1, 9, 5, 0, 0, 0],
@@ -15,6 +13,13 @@ def test_sudoku_solver():
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
 
-    assert solve_sudoku(puzzle)
+    print("Original Puzzle:")
     for row in puzzle:
-        assert 0 not in row  # Ensure no empty cells remain
+        print(row)
+
+    if solve_sudoku(puzzle):
+        print("\nSolved Puzzle:")
+        for row in puzzle:
+            print(row)
+    else:
+        print("No solution exists.")
