@@ -45,6 +45,48 @@ pip install -e .[dev]
 
 ---
 
+## Makefile Commands
+
+This project includes a `Makefile` for common development tasks:
+
+- **Install Dependencies**:
+  Install all required dependencies:
+  ```bash
+  make install
+  ```
+
+- **Run Tests**:
+  Execute the test suite:
+  ```bash
+  make test
+  ```
+
+- **Format Code**:
+  Format all Python files using `black`:
+  ```bash
+  make format
+  ```
+
+- **Lint Code**:
+  Lint all Python files using `pylint`:
+  ```bash
+  make lint
+  ```
+
+- **Clean Temporary Files**:
+  Clean up temporary files and cache:
+  ```bash
+  make clean
+  ```
+
+- **Run Project**:
+  If applicable, run the project locally:
+  ```bash
+  make run
+  ```
+
+---
+
 ## Usage
 
 1. Import and use the Sudoku Solver Core in your Python project:
