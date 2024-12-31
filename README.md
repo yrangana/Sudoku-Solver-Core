@@ -15,139 +15,92 @@ This is the **core module** of a Sudoku solver project. It provides the logic fo
 
 ---
 
-## Getting Started
+## Setup
 
 ### Prerequisites
-
 - Python 3.10 or higher
 - Virtual environment (recommended)
 
-### Setup
+### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yrangana/sudoku-solver-core.git
-   cd sudoku-solver-core
-   ```
+#### Install Runtime Dependencies
+To use the Sudoku Solver Core package:
+```bash
+pip install git+https://github.com/yrangana/Sudoku-Solver-Core.git@main
+```
 
-2. Set up a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows, use `.venv\\Scripts\\activate`
-   ```
+#### Install Development Dependencies
+To contribute or run tests, install with development dependencies:
+```bash
+pip install git+https://github.com/yrangana/Sudoku-Solver-Core.git@main[dev]
+```
 
-3. Install dependencies:
-   ```bash
-   make install
-   ```
+### Local Development
+For local development, clone the repository and install it in editable mode:
+```bash
+git clone https://github.com/yrangana/Sudoku-Solver-Core.git
+cd Sudoku-Solver-Core
+pip install -e .[dev]
+```
 
 ---
 
 ## Usage
 
-1. Run the `main.py` file:
-   ```bash
-   make run
+1. Import and use the Sudoku Solver Core in your Python project:
+   ```python
+   from src.solver import solve_sudoku
+
+   puzzle = [
+       [5, 3, 0, 0, 7, 0, 0, 0, 0],
+       [6, 0, 0, 1, 9, 5, 0, 0, 0],
+       ...
+   ]
+
+   if solve_sudoku(puzzle):
+       print("Solved Puzzle:", puzzle)
+   else:
+       print("No solution exists.")
    ```
 
-2. Choose to use the default puzzle or input your own puzzle.
-
-3. Follow the prompts for input:
-   - Enter each row of the puzzle as space-separated numbers.
-   - Use `0` for empty cells.
-
-### Example
-
-**Input Puzzle**:
-```
-5 3 0 0 7 0 0 0 0
-6 0 0 1 9 5 0 0 0
-0 9 8 0 0 0 0 6 0
-8 0 0 0 6 0 0 0 3
-4 0 0 8 0 3 0 0 1
-7 0 0 0 2 0 0 0 6
-0 6 0 0 0 0 2 8 0
-0 0 0 4 1 9 0 0 5
-0 0 0 0 8 0 0 7 9
-```
-
-**Solved Puzzle**:
-```
-5 3 4 6 7 8 9 1 2
-6 7 2 1 9 5 3 4 8
-1 9 8 3 4 2 5 6 7
-8 5 9 7 6 1 4 2 3
-4 2 6 8 5 3 7 9 1
-7 1 3 9 2 4 8 5 6
-9 6 1 5 3 7 2 8 4
-2 8 7 4 1 9 6 3 5
-3 4 5 2 8 6 1 7 9
-```
-
 ---
 
-## Makefile Commands
+## Dependencies
 
-This project includes a `Makefile` for common tasks:
+### Runtime
+- None (currently no runtime dependencies)
 
-- **Install Dependencies**:
-  ```bash
-  make install
-  ```
-
-- **Run the Project**:
-  ```bash
-  make run
-  ```
-
-- **Test the Project**:
-  ```bash
-  make test
-  ```
-
-- **Format Code**:
-  ```bash
-  make format
-  ```
-
-- **Lint Code**:
-  ```bash
-  make lint
-  ```
-
-- **Clean Temporary Files**:
-  ```bash
-  make clean
-  ```
-
----
-
-## Tests
-
-### Running Tests
-
-To run the test suite, execute:
-```bash
-make test
-```
-
-### Test Cases
-
-The test suite includes:
-- Valid Sudoku puzzles.
-- Invalid grids (e.g., non-9x9 grids, non-integer entries).
-- Unsolvable puzzles.
+### Development
+- `black`: Code formatting
+- `click`: CLI support
+- `ipython`: Interactive shell
+- `pylint`: Code linting
+- `pytest`: Testing framework
+- `setuptools`: Packaging and build tool
 
 ---
 
 ## Contributing
 
-This module is part of a larger project. Contributions are welcome to enhance the core logic or integrate it with other features.
+### Local Development
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yrangana/Sudoku-Solver-Core.git
+   ```
+2. Install dependencies for development:
+   ```bash
+   pip install -e .[dev]
+   ```
+3. Run tests to verify:
+   ```bash
+   pytest
+   ```
 
-### How to Contribute:
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Submit a pull request with a clear description of your changes.
+### Package Installation
+- Install the package in other projects using:
+  ```bash
+  pip install git+https://github.com/yrangana/Sudoku-Solver-Core.git@main
+  ```
 
 ---
 
