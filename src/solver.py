@@ -1,3 +1,16 @@
+import signal
+
+
+# Exception for handling timeouts
+class TimeoutException(Exception):
+    """Custom exception for handling timeouts."""
+
+
+# Signal handler to raise timeout exception
+def timeout_handler(signum, frame):
+    raise TimeoutException("Timeout exceeded while solving the puzzle")
+
+
 def is_valid(board, row, col, num):
     """
     Check if placing 'num' in board[row][col] is valid.
@@ -54,15 +67,6 @@ def solve_sudoku(board):
 
     Returns:
         bool: True if the puzzle is solvable, otherwise False.
-
-    Example:
-        >>> puzzle = [
-        ...     [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        ...     [6, 0, 0, 1, 9, 5, 0, 0, 0],
-        ...     ...
-        ... ]
-        >>> solve_sudoku(puzzle)
-        True
     """
     if not is_valid_grid(board):
         raise ValueError("Invalid Sudoku grid. Must be a 9x9 grid with integers 0-9.")
@@ -78,3 +82,30 @@ def solve_sudoku(board):
                         board[row][col] = 0  # Backtrack
                 return False
     return True
+
+
+def solve_sudoku_with_timeout(puzzle, timeout=5):
+    """
+    Solve the Sudoku puzzle with a timeout.
+
+    Args:
+        puzzle (list): 9x9 Sudoku grid.
+        timeout (int): Time limit in seconds.
+
+    Returns:
+        list[list[int]]: Solved Sudoku grid if solved within timeout.
+        None: If unsolvable or if timeout exceeded.
+    """
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(timeout)  # Start the timer
+    try:
+        # Create a copy of the puzzle to avoid modifying the original
+        board = [row[:] for row in puzzle]
+        if solve_sudoku(board):  # Call your existing solver logic
+            signal.alarm(0)  # Cancel the alarm on success
+            return board  # Return the solved board
+        signal.alarm(0)  # Cancel the alarm on failure
+        return None  # Return None if unsolvable
+    except TimeoutException:
+        signal.alarm(0)  # Ensure the alarm is cancelled after timeout
+        return None  # Return None if timeout exceeded

@@ -1,5 +1,5 @@
 import pytest
-from src.solver import solve_sudoku, is_valid_grid
+from src.solver import solve_sudoku, is_valid_grid, solve_sudoku_with_timeout
 
 
 def test_valid_puzzle():
@@ -57,7 +57,25 @@ def test_unsolvable_puzzle():
         [0, 0, 0, 4, 1, 9, 0, 0, 5],
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
-    assert not solve_sudoku(unsolvable_puzzle)
+    assert not solve_sudoku(
+        unsolvable_puzzle
+    )  # Should return False for unsolvable puzzles
+
+
+def test_timeout_handling():
+    challenging_puzzle = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+    result = solve_sudoku_with_timeout(challenging_puzzle, timeout=1)
+    assert not result  # Expect False due to timeout
 
 
 def test_is_valid_grid():

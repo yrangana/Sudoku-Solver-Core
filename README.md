@@ -1,3 +1,4 @@
+
 [![Makefile CI](https://github.com/yrangana/Sudoku-Solver-Core/actions/workflows/makefile.yml/badge.svg)](https://github.com/yrangana/Sudoku-Solver-Core/actions/workflows/makefile.yml)
 
 # Sudoku Solver Core
@@ -12,6 +13,8 @@ This is the **core module** of a Sudoku solver project. It provides the logic fo
 - Validate puzzle input for correctness and consistency.
 - Display puzzles in a user-friendly format.
 - Designed for integration with other modules (e.g., OCR, image processing).
+- **Timeout Functionality**: Solve puzzles within a user-defined time limit.
+- **Interactive Mode**: Accept puzzles via user input or use default puzzles.
 
 ---
 
@@ -103,6 +106,24 @@ This project includes a `Makefile` for common development tasks:
        print("Solved Puzzle:", puzzle)
    else:
        print("No solution exists.")
+   ```
+
+2. **Interactive Mode**:
+   Run the `main.py` script to interact with the solver:
+   ```bash
+   python main.py
+   ```
+   Features:
+   - Choose between a default puzzle or input your own.
+   - Set a timeout for solving the puzzle.
+
+   Example of input for custom puzzles:
+   ```
+   Enter your Sudoku puzzle row by row, using 0 for empty cells.
+   Row 1: 5 3 0 0 7 0 0 0 0
+   Row 2: 6 0 0 1 9 5 0 0 0
+   ...
+   Row 9: 0 0 0 0 8 0 0 7 9
    ```
 
 ---

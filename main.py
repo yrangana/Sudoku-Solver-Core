@@ -1,10 +1,14 @@
-from src.solver import solve_sudoku
+from src.solver import solve_sudoku_with_timeout
 
 
 def display_grid(grid):
     """
     Display the Sudoku grid in a readable format.
     """
+    if not isinstance(grid, list) or not all(isinstance(row, list) for row in grid):
+        print("Invalid or unsolvable puzzle.")
+        return
+
     for row in grid:
         print(" ".join(str(cell) if cell != 0 else "." for cell in row))
 
@@ -36,7 +40,7 @@ def get_user_input_puzzle():
         while True:
             try:
                 row = list(map(int, input(f"Row {i + 1}: ").split()))
-                if len(row) != 9 or any(cell < 0 or cell > 9 for cell in row):
+                if len(row) != 9 or not all(0 <= num <= 9 for num in row):
                     raise ValueError
                 user_puzzle.append(row)
                 break
@@ -45,28 +49,46 @@ def get_user_input_puzzle():
     return user_puzzle
 
 
-def solve_and_display(puzzle_grid):
-    """
-    Solve the given puzzle and display the result.
-    """
-    print("\nOriginal Puzzle:")
-    display_grid(puzzle_grid)
-
-    if solve_sudoku(puzzle_grid):
-        print("\nSolved Puzzle:")
-        display_grid(puzzle_grid)
-    else:
-        print("\nNo solution exists.")
-
-
 if __name__ == "__main__":
-    print("Sudoku Solver\n")
-
-    # Prompt user for default or custom puzzle
-    use_default_puzzle = input("Use default puzzle? (y/n): ").strip().lower() == "y"
-    input_puzzle = (
-        get_default_puzzle() if use_default_puzzle else get_user_input_puzzle()
+    # Ask the user if they want to use the default puzzle or input their own
+    use_default = (
+        input("Do you want to use the default Sudoku puzzle? (yes/y/no): ")
+        .strip()
+        .lower()
     )
 
-    # Solve and display the puzzle
-    solve_and_display(input_puzzle)
+    if use_default in ["yes", "y"]:
+        puzzle = get_default_puzzle()
+    else:
+        puzzle = get_user_input_puzzle()
+
+    # Ask the user to provide a timeout value
+    while True:
+        try:
+            timeout = int(
+                input("Enter the timeout in seconds for solving the puzzle: ").strip()
+            )
+            if timeout <= 0:
+                raise ValueError
+            break
+        except ValueError:
+            print("Invalid timeout. Please enter a positive integer.")
+
+    print("\nAttempting to solve the following Sudoku puzzle:")
+    display_grid(puzzle)
+
+    try:
+        # Debugging: Print the raw return value of the solver
+        solution = solve_sudoku_with_timeout(puzzle, timeout)
+        print("\nSolver returned:")
+        print(solution)
+
+        if solution and isinstance(solution, list):
+            print("\nSolved Sudoku puzzle:")
+            display_grid(solution)
+        else:
+            print("\nNo solution found for the given Sudoku puzzle.")
+    except TimeoutError:
+        print(
+            f"\nThe solver could not solve the puzzle within the timeout limit of {timeout} seconds."
+        )
