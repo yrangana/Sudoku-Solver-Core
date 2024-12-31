@@ -38,7 +38,9 @@ def is_valid_grid(board):
     """
     if len(board) != 9 or any(len(row) != 9 for row in board):
         return False
-    if not all(isinstance(cell, int) and 0 <= cell <= 9 for row in board for cell in row):
+    if not all(
+        isinstance(cell, int) and 0 <= cell <= 9 for row in board for cell in row
+    ):
         return False
     return True
 
