@@ -1,4 +1,4 @@
-from src.solver import solve_sudoku_with_timeout
+from src.solver import solve_sudoku_with_timeout, is_valid_grid
 
 
 def display_grid(grid):
@@ -62,6 +62,11 @@ if __name__ == "__main__":
     else:
         puzzle = get_user_input_puzzle()
 
+    # Validate the puzzle
+    if not is_valid_grid(puzzle):
+        print("The provided puzzle is invalid. Exiting.")
+        exit(1)
+
     # Ask the user to provide a timeout value
     while True:
         try:
@@ -78,17 +83,11 @@ if __name__ == "__main__":
     display_grid(puzzle)
 
     try:
-        # Debugging: Print the raw return value of the solver
         solution = solve_sudoku_with_timeout(puzzle, timeout)
-        print("\nSolver returned:")
-        print(solution)
-
         if solution and isinstance(solution, list):
             print("\nSolved Sudoku puzzle:")
             display_grid(solution)
         else:
             print("\nNo solution found for the given Sudoku puzzle.")
-    except TimeoutError:
-        print(
-            f"\nThe solver could not solve the puzzle within the timeout limit of {timeout} seconds."
-        )
+    except Exception as e:  # pylint: disable=W0718
+        print(f"\nAn error occurred: {e}")
