@@ -20,6 +20,22 @@ def test_valid_puzzle():
     assert all(all(cell != 0 for cell in row) for row in solution)
 
 
+def test_invalid_puzzle():
+    invalid_puzzle = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+    with pytest.raises(Exception):
+        solve_sudoku_with_timeout(invalid_puzzle, timeout=10)
+
+
 def test_invalid_grid():
     invalid_puzzle = [
         [5, 3, 0, 0, 7],  # Invalid row length

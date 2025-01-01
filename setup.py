@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="sudoku_solver_core",
-    version="0.2.0",
+    version="0.2.1",
     description="Core module for solving Sudoku puzzles",
     author="Yasiru Rangana",
     url="https://github.com/yrangana/Sudoku-Solver-Core",

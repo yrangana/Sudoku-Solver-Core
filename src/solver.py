@@ -53,6 +53,52 @@ def is_valid(board, row, col, num):
     return True
 
 
+def is_valid_puzzle(puzzle):
+    """
+    Validate the Sudoku puzzle to ensure it follows basic rules.
+
+    Args:
+        puzzle (list): 9x9 Sudoku grid.
+
+    Returns:
+        bool: True if valid, False otherwise.
+    """
+    for row in puzzle:
+        if not is_valid_group(row):
+            return False
+
+    for col in zip(*puzzle):  # Transpose to check columns
+        if not is_valid_group(col):
+            return False
+
+    # Check 3x3 sub-grids
+    for box_row in range(0, 9, 3):
+        for box_col in range(0, 9, 3):
+            box = [
+                puzzle[r][c]
+                for r in range(box_row, box_row + 3)
+                for c in range(box_col, box_col + 3)
+            ]
+            if not is_valid_group(box):
+                return False
+
+    return True
+
+
+def is_valid_group(group):
+    """
+    Check if a row, column, or box contains no duplicates (excluding zeros).
+
+    Args:
+        group (list): A group of 9 numbers.
+
+    Returns:
+        bool: True if valid, False otherwise.
+    """
+    numbers = [num for num in group if num != 0]
+    return len(numbers) == len(set(numbers))
+
+
 def solve_sudoku_helper(board):
     """Recursive helper function to solve the Sudoku puzzle."""
     for row in range(9):
@@ -72,6 +118,11 @@ def solve_sudoku_with_timeout(board, timeout=10):
     """Solve the Sudoku puzzle with a timeout."""
     if not is_valid_grid(board):
         raise ValueError("Invalid Sudoku grid. Must be a 9x9 grid with integers 0-9.")
+
+    if not is_valid_puzzle(board):
+        raise ValueError(
+            "Invalid Sudoku puzzle. This puzzle does not have an solution."
+        )
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         future = executor.submit(solve_sudoku_helper, board)
